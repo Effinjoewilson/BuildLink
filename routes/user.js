@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const userHelpers = require('../helpers/user-helpers')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -22,9 +23,12 @@ router.get('/signup', function(req, res, next) {
   res.render('user/signup');
 });
 
-router.post('/signup', function(req, res, next) {
-  //console.log("user")
-  res.render('user/main',{user:true});
+router.post('/signup',(req, res)=> {
+  //console.log(req.body)
+  userHelpers.doSignup(req.body).then(()=>{
+    //include session details here
+    res.render('user/main',{user:true});
+  })
 });
 
 module.exports = router;
