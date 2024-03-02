@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs=require('express-handlebars')
 
+var db = require('./config/connection')
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 
@@ -21,6 +22,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+db.connect((err)=>{
+  if(err) console.log("Connection Error : "+err);
+  else console.log("Database Connected");
+})
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 
