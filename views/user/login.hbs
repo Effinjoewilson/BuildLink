@@ -2,6 +2,9 @@
     <div class="container">
         <h1>Welcome to BuildLink</h1>
         <form action="/user/login" method="post" role="form">
+            {{#if loginErr}}
+                <p class="error" style="color: red;">{{loginErr}}</p>
+            {{/if}}
             <label for="email">Email or phone</label>
             <input type="email" id="email" name="email" required>
 

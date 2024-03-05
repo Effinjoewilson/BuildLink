@@ -9,7 +9,8 @@ module.exports={
             userData.password =await bcrypt.hash(userData.password,10)
             //await db.connect();
             db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data)=>{
-                resolve(data.insertedId)
+                //console.log(userData)
+                resolve(userData)
             })
         })
     },
