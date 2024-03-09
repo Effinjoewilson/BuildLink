@@ -9,6 +9,7 @@ var session = require('express-session')
 var db = require('./config/connection')
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
+var agentRouter = require('./routes/agent');
 
 var app = express();
 
@@ -30,6 +31,7 @@ db.connect((err)=>{
 })
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/agent', agentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

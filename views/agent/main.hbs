@@ -1,0 +1,37 @@
+<div class="container mt-after-header">
+    <div class="row mt-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">Welcome, Agent!</h2>
+                    <p class="card-text">Please declare your services below:</p>
+                    
+                    <!-- Service Declaration Form -->
+                    <form action="/declare-services" method="POST">
+                        <div class="form-group">
+                            <label for="service1">Service 1:</label>
+                            <input type="text" class="form-control" id="service1" name="service1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service2">Service 2:</label>
+                            <input type="text" class="form-control" id="service2" name="service2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service3">Service 3:</label>
+                            <input type="text" class="form-control" id="service3" name="service3" required>
+                        </div>
+                        <!-- Add more service fields as needed -->
+
+                        <button type="submit" class="btn btn-primary">Declare Services</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .mt-after-header {
+        margin-top: 100px; /* Adjust this value according to your header height */
+    }
+</style>
