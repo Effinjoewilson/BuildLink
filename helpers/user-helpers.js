@@ -6,12 +6,24 @@ module.exports={
     doSignup:(userData)=>{
         //console.log(userData)
         return new Promise(async(resolve,reject)=>{
-            userData.password =await bcrypt.hash(userData.password,10)
-            //await db.connect();
-            db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data)=>{
-                //console.log(userData)
-                resolve(userData)
-            })
+
+            //to check if already existing email
+            let response={}
+            let user= await db.get().collection(collection.USER_COLLECTION).findOne({email:userData.email})
+            if(!user){
+                userData.password =await bcrypt.hash(userData.password,10)
+                //await db.connect();
+                db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data)=>{
+                    //console.log(userData)
+                    console.log("Signup success")
+                    response.user=userData.fullname
+                    response.status=true
+                    resolve(response)
+                })
+            }else{
+                console.log("Signup failed")
+                resolve({status:false})
+            }
         })
     },
 
@@ -25,7 +37,7 @@ module.exports={
                 bcrypt.compare(userData.password,user.password).then((status)=>{
                     if(status){
                         console.log("Login success")
-                        response.user=user
+                        response.user=user.fullname
                         response.status=true
                         resolve(response)
                     }else{

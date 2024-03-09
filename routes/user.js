@@ -11,8 +11,8 @@ const verifyLogin=(req,res,next)=>{
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  //console.log(req.session.user)
-  var name = req.session.user.fullname
+  //console.log(req.session)
+  var name = req.session.user
   res.render('user/main',{user:true,name});
 });
 
@@ -43,16 +43,22 @@ router.post('/login', (req, res, next) =>{
 
 router.get('/signup', function(req, res, next) {
   //console.log("user signup")
-  res.render('user/signup');
+  res.render('user/signup',{"SignupErr":req.session.userSignupErr})
+  req.session.userSignupErr=false
 });
 
 router.post('/signup',(req, res)=> {
   //console.log(req.body)
-  userHelpers.doSignup(req.body).then((userData)=>{
-    //include session details here
-    req.session.user=userData
-    req.session.userLoggedIn=true
-    res.redirect('/user');
+  userHelpers.doSignup(req.body).then((response)=>{
+    if(response.status){
+      req.session.user=response.user
+      req.session.userLoggedIn=true
+      res.redirect('/user');
+    }else{
+      req.session.userSignupErr='Alredy existing user'
+      console.log("Alredy existing user")
+      res.redirect('/user/signup');
+    }
   })
 });
 
