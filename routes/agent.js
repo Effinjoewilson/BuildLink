@@ -10,6 +10,7 @@ const verifyLogin=(req,res,next)=>{
 }
 
 router.get('/',(req, res)=> {
+  //console.log(req.session)
    var name = req.session.agent
     res.render('agent/main',{agent:true,name});
   });
@@ -41,16 +42,23 @@ router.post('/login', (req, res) =>{
 
 router.get('/signup',(req, res) =>{
   //console.log("agent signup")
-  res.render('agent/signup');
+  res.render('agent/signup',{"SignupErr":req.session.agentSignupErr})
+  req.session.agentSignupErr=false
 });
 
 router.post('/signup',(req, res)=> {
   //console.log(req.body)
-  agentHelpers.doSignup(req.body).then((agentData)=>{
+  agentHelpers.doSignup(req.body).then((response)=>{
     //include session details here
-    req.session.agent=agentData
-    req.session.agentLoggedIn=true
-    res.redirect('/agent');
+    if(response.status){
+      req.session.agent=response.agent
+      req.session.agentLoggedIn=true
+      res.redirect('/agent');
+    }else{
+      req.session.agentSignupErr='Alredy existing agent'
+      console.log("Alredy existing agent")
+      res.redirect('/agent/signup');
+    }
   })
 });
 

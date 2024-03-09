@@ -3,6 +3,9 @@
         <h1>Sign Up for BuildLink</h1>
         <h2>Agent</h2>
         <form action="/agent/signup" method="post" role="form">
+            {{#if SignupErr}}
+                <p class="error" style="color: red;">{{SignupErr}}</p>
+            {{/if}}
             <label for="fullname">Full Name</label>
             <input type="text" id="fullname" name="fullname" required>
 
