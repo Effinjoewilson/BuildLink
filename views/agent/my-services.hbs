@@ -1,49 +1,117 @@
 <section class="container mt-after-header">
     <div class="row">
-        <div class="col">
+        <div class="">
             <div class="card justify-content-center">
+                {{#if agentServices}}
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title">AGENT LISTING</h3>
+                    <div>
+                        <h3 class="card-title">AGENT LISTING</h3>
+                    </div>
+                    <div>
+                        <a href="/agent/add-services" class="btn btn-danger">Add Services</a>
+                    </div>
+                </div>
+
+                <!-- Display RAW MATERIALS -->
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <h4>RAW MATERIALS</h4>
+                        <thead>
+                            <tr>
+                                <th>SERVICES</th>
+                                <th>PRICE</th>
+                                <th>LOCATION</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each agentServices.services}}
+                            {{#isEqual service_type 'RAW MATERIAL'}}
+                            <tr>
+                                <td>{{name}}</td>
+                                <td>{{price}}</td>
+                                <td>{{location}}</td>
+                                <td>
+                                    <a class="btn btn-danger" href="">Delete</a>
+                                    <a class="btn btn-primary" href="">Edit</a>
+                                </td>
+                            </tr>
+                            {{/isEqual}}
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Display MACHINERY -->
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <h4>MACHINERY</h4>
+                        <thead>
+                            <tr>
+                                <th>SERVICES</th>
+                                <th>PRICE</th>
+                                <th>LOCATION</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each agentServices.services}}
+                            {{#isEqual service_type 'MACHINERY'}}
+                            <tr>
+                                <td>{{name}}</td>
+                                <td>{{price}}</td>
+                                <td>{{location}}</td>
+                                <td>
+                                    <a class="btn btn-danger" href="">Delete</a>
+                                    <a class="btn btn-primary" href="">Edit</a>
+                                </td>
+                            </tr>
+                            {{/isEqual}}
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Display LABOURS -->
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <h4>LABOURS</h4>
+                        <thead>
+                            <tr>
+                                <th>SERVICES</th>
+                                <th>PRICE</th>
+                                <th>LOCATION</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each agentServices.services}}
+                            {{#isEqual service_type 'LABOURS'}}
+                            <tr>
+                                <td>{{name}}</td>
+                                <td>{{price}}</td>
+                                <td>{{location}}</td>
+                                <td>
+                                    <a class="btn btn-danger" href="">Delete</a>
+                                    <a class="btn btn-primary" href="">Edit</a>
+                                </td>
+                            </tr>
+                            {{/isEqual}}
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                {{else}}
+                <div class="card-body mt-5 mb-5">
+                    <p>You havent Added any services yet</p>
                     <a href="/agent/add-services" class="btn btn-danger">Add Services</a>
                 </div>
-                {{#if agentServices}}
-                    {{#each agentServices.services}}
-                        <div class="card-body">
-                            <table class="table table-bordered">
-                                <h4>{{service_type}}</h4>
-                                <thead>
-                                    <tr>
-                                        <th>SERVICES</th>
-                                        <th>PRICE</th>
-                                        <th>LOCATION</th>
-                                        <th>DESCRIPTION</th>
-                                        <th>ACTION</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{{name}}</td>
-                                        <td>{{price}}</td>
-                                        <td>{{location}}</td>
-                                        <td>{{description}}</td>
-                                        <td>
-                                            <a class="btn btn-danger" href="">Delete</a>
-                                            <a class="btn btn-primary" href=""> Edit </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    {{/each}}
-                {{else}}
-                    <div class="card-body">
-                        <p>No services available</p>
-                    </div>
                 {{/if}}
             </div>
         </div>
     </div>
 </section>
+
 
 
 <style>

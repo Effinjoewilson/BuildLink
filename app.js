@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs=require('express-handlebars')
 var session = require('express-session')
+const handlebars = require('handlebars');
 
 var db = require('./config/connection')
 var indexRouter = require('./routes/index');
@@ -12,6 +13,10 @@ var userRouter = require('./routes/user');
 var agentRouter = require('./routes/agent');
 
 var app = express();
+
+handlebars.registerHelper('isEqual', function (value1, value2, options) {
+  return value1 === value2 ? options.fn(this) : options.inverse(this);
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
