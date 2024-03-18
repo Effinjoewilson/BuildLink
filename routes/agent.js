@@ -11,7 +11,7 @@ const verifyLogin=(req,res,next)=>{
 
 router.get('/',(req, res)=> {
   //console.log(req.session)
-   var name = req.session.agent
+   var name = req.session.agent.name
     res.render('agent/main',{agent:true,name});
   });
 
@@ -66,6 +66,28 @@ router.get('/logout',(req,res)=>{
   req.session.agent=null
   req.session.agentLoggedIn=false
   res.redirect('/')
+})
+
+router.get('/my-services',verifyLogin,(req,res)=>{
+  var name = req.session.agent.name
+  let agentId=req.session.agent.agentId
+  agentHelpers.doTakeAgentServices(agentId).then((agentServices)=>{
+    //console.log(agentServices)
+    res.render('agent/my-services',{agent:true,name,agentServices});
+  })
+})
+
+router.get('/add-services',verifyLogin,(req,res)=>{
+  var name = req.session.agent.name
+  res.render('agent/add-services',{agent:true,name});
+})
+
+router.post('/add-services',(req,res)=>{
+  //console.log(req.session)
+  let agentId=req.session.agent.agentId
+   agentHelpers.addServices(req.body,agentId).then(()=>{
+    res.redirect('/agent/my-services')
+   })
 })
 
 module.exports = router;

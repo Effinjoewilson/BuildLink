@@ -1,0 +1,65 @@
+<section class="container mt-after-header">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Add Services</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/agent/add-services">
+                        <div class="form-group">
+                            <label>Choose type of Service</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="RAW MATERIAL" name="service_type" id="raw_material">
+                                <label class="form-check-label" for="raw_material">
+                                    Raw Material
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="MACHINERY" name="service_type" id="labours">
+                                <label class="form-check-label" for="labours">
+                                    Machinery 
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="LABOURS" name="service_type" id="machinery">
+                                <label class="form-check-label" for="machinery">
+                                    Labourers
+                                </label>
+                            </div>
+                        </div><br>
+                        <div class="form-group">
+                            <label for="new_materials">Name</label>
+                            <input type="text" class="form-control" id="new_materials" placeholder="" name="name" required>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="" class="form-control" id="price" placeholder="Enter the Price" name="price" required>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="location">Enter Your Location</label>
+                            <input type="text" class="form-control" id="location" placeholder="Location" name="location" required>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" placeholder="" name="description" required>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-danger btn-block"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .mt-after-header {
+        margin-top: 100px;
+    }
+</style>

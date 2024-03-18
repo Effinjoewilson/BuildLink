@@ -1,0 +1,67 @@
+<section class="container mt-after-header">
+    <div class="row">
+        <div class="col">
+            <div class="card justify-content-center">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">AGENT LISTING</h3>
+                    <a href="/agent/add-services" class="btn btn-danger">Add Services</a>
+                </div>
+                {{#if agentServices}}
+                    {{#each agentServices.services}}
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <h4>{{service_type}}</h4>
+                                <thead>
+                                    <tr>
+                                        <th>SERVICES</th>
+                                        <th>PRICE</th>
+                                        <th>LOCATION</th>
+                                        <th>DESCRIPTION</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{name}}</td>
+                                        <td>{{price}}</td>
+                                        <td>{{location}}</td>
+                                        <td>{{description}}</td>
+                                        <td>
+                                            <a class="btn btn-danger" href="">Delete</a>
+                                            <a class="btn btn-primary" href=""> Edit </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <div class="card-body">
+                        <p>No services available</p>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    /* Add custom CSS here if needed */
+    .table-wrapper {
+        max-height: calc(100vh - 200px);
+        /* Adjust as needed */
+        overflow-y: auto;
+    }
+
+    .mt-after-header {
+        margin-top: 100px;
+        /* Adjust this value according to your header height */
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>
