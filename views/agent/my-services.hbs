@@ -13,9 +13,10 @@
                 </div>
 
                 <!-- Display RAW MATERIALS -->
+                {{#if (hasServices1 'RAW MATERIAL')}}
                 <div class="card-body">
+                    <h4>RAW MATERIALS</h4>
                     <table class="table table-bordered">
-                        <h4>RAW MATERIALS</h4>
                         <thead>
                             <tr>
                                 <th>SERVICES</th>
@@ -41,11 +42,13 @@
                         </tbody>
                     </table>
                 </div>
+                {{/if}}
 
                 <!-- Display MACHINERY -->
+                {{#if (hasServices1 'MACHINERY')}}
                 <div class="card-body">
+                    <h4>MACHINERY</h4>
                     <table class="table table-bordered">
-                        <h4>MACHINERY</h4>
                         <thead>
                             <tr>
                                 <th>SERVICES</th>
@@ -71,11 +74,13 @@
                         </tbody>
                     </table>
                 </div>
+                {{/if}}
 
                 <!-- Display LABOURS -->
+                {{#if (hasServices1 'LABOURS')}}
                 <div class="card-body">
+                    <h4>LABOURS</h4>
                     <table class="table table-bordered">
-                        <h4>LABOURS</h4>
                         <thead>
                             <tr>
                                 <th>SERVICES</th>
@@ -101,9 +106,11 @@
                         </tbody>
                     </table>
                 </div>
+                {{/if}}
+
                 {{else}}
                 <div class="card-body mt-5 mb-5">
-                    <p>You havent Added any services yet</p>
+                    <p>You haven't added any services yet</p>
                     <a href="/agent/add-services" class="btn btn-danger">Add Services</a>
                 </div>
                 {{/if}}
@@ -111,8 +118,6 @@
         </div>
     </div>
 </section>
-
-
 
 <style>
     /* Add custom CSS here if needed */

@@ -30,6 +30,17 @@ handlebars.registerHelper('hasServices', function(serviceType, options) {
   return false;
 });
 
+handlebars.registerHelper('hasServices1', function(serviceType, options) {
+  var agentServices = options.data.root.agentServices.services;
+  for (var i = 0; i < agentServices.length; i++) {
+      if (agentServices[i].service_type === serviceType) {
+          return true;
+      }
+  }
+  return false;
+});
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
