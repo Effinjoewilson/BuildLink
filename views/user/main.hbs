@@ -1,4 +1,4 @@
-<div class="container mt-after-header">
+<section class="container mt-after-header">
     <div class="row mt-5">
         <div class="col-4 mb-4 mb-md-0 d-flex justify-content-center">
             <div class="card h-100 custom-card">
@@ -26,223 +26,79 @@
         </div>
     </div>
 
-    <h2 class="mt-5">Resources</h2>
+    {{#if agentServices}}
+        {{#if (hasServices "RAW MATERIAL")}}
+            <h2 class="hai mt-5">RAW MATERIALS</h2>
+            <div class="row mt-4">
+                {{#each agentServices}}
+                    {{#each services}}
+                        {{#isEqual service_type 'RAW MATERIAL'}}
+                            <div class="col-4 col-md-3 col-lg-2">
+                                <div class="card custom-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{name}}</h5>
+                                        <p class="card-text">Price: {{price}}</p>
+                                        <p class="card-text">Location: {{location}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/isEqual}}
+                    {{/each}}
+                {{/each}}
+            </div>
+        {{/if}}
 
-    <!-- New row for resource cards -->
-    <div class="row mt-4">
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Cement</h5>
-                    <p class="card-text">Price: $10 per bag</p>
-                </div>
+        {{#if (hasServices "MACHINERY")}}
+            <h2 class="mt-5">Machinery</h2>
+            <div class="row mt-4">
+                {{#each agentServices}}
+                    {{#each services}}
+                        {{#isEqual service_type "MACHINERY"}}
+                            <div class="col-4 col-md-3 col-lg-2">
+                                <div class="card custom-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{name}}</h5>
+                                        <p class="card-text">Price: {{price}}</p>
+                                        <p class="card-text">Location: {{location}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/isEqual}}
+                    {{/each}}
+                {{/each}}
             </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Steel</h5>
-                    <p class="card-text">Price: $50 per ton</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Sand</h5>
-                    <p class="card-text">Price: $20 per cubic meter</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Bricks</h5>
-                    <p class="card-text">Price: $0.50 per piece</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Paint</h5>
-                    <p class="card-text">Price: $30 per gallon</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Wood</h5>
-                    <p class="card-text">Price: $100 per cubic meter</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-        <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Cement</h5>
-                    <p class="card-text">Price: $10 per bag</p>
-                </div>
-            </div>
-        </div>
-        <!-- Add five more similar cards -->
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Concrete Blocks</h5>
-                    <p class="card-text">Price: $1.50 per block</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Tiles</h5>
-                    <p class="card-text">Price: $3 per square foot</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Roofing Sheets</h5>
-                    <p class="card-text">Price: $20 per sheet</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Plumbing Fixtures</h5>
-                    <p class="card-text">Price: $50 per set</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Electrical Wiring</h5>
-                    <p class="card-text">Price: $2 per meter</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <h2 class="mt-5">Machinery</h2>
+        {{/if}}
 
-    <!-- New row for machinery cards -->
-    <div class="row mt-4">
-        <!-- Add 12 machinery cards here -->
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Excavator</h5>
-                    <p class="card-text">Usage: Digging</p>
+        {{#if (hasServices "LABOURS")}}
+            <h2 class="mt-5">Labourers</h2>
+            <div class="row mt-4">
+                {{#each agentServices}}
+                    {{#each services}}
+                        {{#isEqual service_type "LABOURS"}}
+                            <div class="col-4 col-md-3 col-lg-2">
+                                <div class="card custom-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{name}}</h5>
+                                        <p class="card-text">Price: {{price}}</p>
+                                        <p class="card-text">Location: {{location}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/isEqual}}
+                    {{/each}}
+                {{/each}}
+            </div>
+        {{/if}}
+    {{else}}
+        <div class="container mt-after-header">
+            <div class="row">
+                <div class="col">
+                    <p>No services available</p>
                 </div>
             </div>
         </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Bulldozer</h5>
-                    <p class="card-text">Usage: Earthmoving</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Crane</h5>
-                    <p class="card-text">Usage: Lifting heavy loads</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Backhoe Loader</h5>
-                    <p class="card-text">Usage: Excavation and loading</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Dump Truck</h5>
-                    <p class="card-text">Usage: Transporting materials</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Concrete Mixer</h5>
-                    <p class="card-text">Usage: Mixing concrete</p>
-                </div>
-            </div>
-        </div>
-        <!-- Add six more similar cards -->
-    </div>
-
-    <h2 class="mt-5">Labourers</h2>
-
-    <!-- New row for labourer cards -->
-    <div class="row mt-4">
-        <!-- Add 12 labourer cards here -->
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Carpenter</h5>
-                    <p class="card-text">Specialization: Woodwork</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Electrician</h5>
-                    <p class="card-text">Specialization: Electrical wiring</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Plumber</h5>
-                    <p class="card-text">Specialization: Pipe installation</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Mason</h5>
-                    <p class="card-text">Specialization: Bricklaying</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Painter</h5>
-                    <p class="card-text">Specialization: Painting</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 col-md-3 col-lg-2">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Welder</h5>
-                    <p class="card-text">Specialization: Metal fabrication</p>
-                </div>
-            </div>
-        </div>
-        <!-- Add six more similar cards -->
-    </div>
-</div>
-
-
+    {{/if}}
+</section>
 
 <style>
     .mt-after-header {

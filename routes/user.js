@@ -13,7 +13,11 @@ const verifyLogin=(req,res,next)=>{
 router.get('/', function(req, res, next) {
   //console.log(req.session)
   var name = req.session.user
-  res.render('user/main',{user:true,name});
+
+  userHelpers.getAgentServices().then((agentServices)=>{
+    //console.log(agentServices)
+    res.render('user/main',{user:true,name,agentServices});
+  })
 });
 
 router.get('/login', function(req, res, next) {

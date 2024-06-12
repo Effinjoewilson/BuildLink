@@ -50,5 +50,17 @@ module.exports={
                 resolve({status:false})
             }
         })
+    },
+
+    getAgentServices:()=>{
+        return new Promise(async(resolve,reject)=>{
+            try {
+                const agentServices = await db.get().collection(collection.AGENT_SERVICES_COLLECTION).find({}).toArray();
+                //console.log(agentServices)
+                resolve(agentServices);
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 }

@@ -18,6 +18,18 @@ handlebars.registerHelper('isEqual', function (value1, value2, options) {
   return value1 === value2 ? options.fn(this) : options.inverse(this);
 });
 
+handlebars.registerHelper('hasServices', function(serviceType, options) {
+  var agentServices = options.data.root.agentServices;
+  for (var i = 0; i < agentServices.length; i++) {
+      for (var j = 0; j < agentServices[i].services.length; j++) {
+          if (agentServices[i].services[j].service_type === serviceType) {
+              return true;
+          }
+      }
+  }
+  return false;
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
