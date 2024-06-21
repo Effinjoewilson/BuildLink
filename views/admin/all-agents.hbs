@@ -1,0 +1,58 @@
+<div class="container mt-5">
+    <h2>All Agents</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Company</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each agents}}
+            <tr>
+                <th scope="row">{{@index}}</th>
+                <td>{{this.fullname}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.phone}}</td>
+                <td>{{this.company}}</td>
+                <td><a href="" class="btn btn-primary">View</a></td>
+                {{!-- href="/admin/agent/{{this._id}}" --}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    /* styles.css */
+.table {
+    margin-top: 20px;
+    border: 1px solid #dee2e6;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+.container {
+    padding-top: 60px;
+}
+
+</style>

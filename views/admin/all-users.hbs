@@ -1,0 +1,63 @@
+<div class="container mt-5">
+    <h2>All Users</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <th scope="row">{{@index}}</th>
+                <td>{{this.fullname}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.phone}}</td>
+                <td><a href="" class="btn btn-primary">View</a></td>
+                {{!-- href="/admin/user/{{this._id}}" --}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    /* This CSS is for styling the tables on both all-users.hbs and all-agents.hbs pages */
+
+/* Add margin to the table to ensure it doesn't stick to the top of the container */
+.table {
+    margin-top: 20px;
+    border: 1px solid #dee2e6;
+}
+
+/* Ensure table headers and cells have vertical alignment for better readability */
+.table th, .table td {
+    vertical-align: middle;
+}
+
+/* Style the table headers with a light background and solid bottom border */
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+/* Add striped rows for better readability in tables */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Add hover effect on table rows for better user experience */
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+/* Add padding to the container to avoid content overlapping with the fixed navbar */
+.container {
+    padding-top: 60px;
+}
+
+</style>

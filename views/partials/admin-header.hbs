@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color: #f2f2f2;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">BuildLink-Admin Panel</a>
+            <a class="navbar-brand" href="/admin">BuildLink-Admin Panel</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -9,16 +9,19 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/admin">All Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/all-orders">All Orders</a>
+                        <a class="nav-link active" aria-current="page" href="">Services</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/all-users">All Users</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/all-agents">All Agents</a>
+                    </li>
                 </ul>
                 <form class="d-flex">
+
+                    <p class="mt-1" href="#">{{name}}</p>
+
                     <a href="/admin/logout" class="btn btn-outline-danger me-2 ms-2">Log Out</a>
                 </form>
             </div>

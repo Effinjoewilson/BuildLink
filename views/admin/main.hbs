@@ -1,0 +1,46 @@
+<div class="container dashboard-container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Total Users</h5>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-text">{{userCount}}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Total Agents</h5>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-text">{{agentCount}}</h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<style>
+    body {
+        background-color: #f8f9fa;
+        margin-top: 56px;
+        /* For fixed navbar offset */
+    }
+
+    .dashboard-container {
+        padding: 20px;
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+</style>
