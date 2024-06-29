@@ -94,7 +94,43 @@ module.exports = {
                 reject(error);
             }
         });
+    },
+
+    getAgentProfile: (agentId) => {
+        return new Promise(async (resolve, reject) => {
+            let agent={}
+            try {
+                let agentDetails = await db.get().collection(collection.AGENT_COLLECTION).findOne({ _id: new ObjectId(agentId) });
+                //agent.fullname=agentDetails.fullname
+                //agent.email=agentDetails.email
+                resolve(agentDetails);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    },
+
+    updateAgentProfile: (agentId, profileData) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            let updateData = {
+              phone: profileData.phone,
+              companyName: profileData.companyName,
+              address: profileData.address,
+              state: profileData.state,
+              district: profileData.district
+            };
+            if (profileData.verificationImage) {
+              updateData.verificationImage = `/verification-files/${agentId}.jpg`;
+            }
+            await db.get().collection(collection.AGENT_COLLECTION).updateOne(
+              { _id: new ObjectId(agentId) },
+              { $set: updateData }
+            );
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
+        });
     }
-    
-    
 }

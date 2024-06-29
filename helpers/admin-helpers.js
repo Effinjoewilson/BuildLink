@@ -73,5 +73,16 @@ module.exports = {
       let count = await db.get().collection(collection.AGENT_COLLECTION).countDocuments();
       resolve(count);
     });
+  },
+
+  getAllAgentsWithProfileImage: () => {
+    return new Promise(async (resolve, reject) => {
+      let agents = await db.get().collection(collection.AGENT_COLLECTION).find().toArray();
+      resolve(agents.map(agent => ({
+        ...agent,
+        verificationImage: `/public/verification-files/${agent._id}.jpg`
+      })));
+    });
   }
+
 };

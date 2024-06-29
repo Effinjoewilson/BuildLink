@@ -90,4 +90,31 @@ router.post('/add-services',(req,res)=>{
    })
 })
 
+router.get('/my-profile', verifyLogin, (req, res) => {
+  let agentId = req.session.agent.agentId;
+  agentHelpers.getAgentProfile(agentId).then((agent) => {
+      //console.log(agent)
+      res.render('agent/my-profile', { agent: true, ...agent });
+  });
+});
+
+router.post('/update-profile', verifyLogin, (req, res) => {
+  let agentId = req.session.agent.agentId;
+  agentHelpers.updateAgentProfile(agentId, req.body).then(() => {
+    if(req.files && req.files.verificationImage) {
+      let image = req.files.verificationImage;
+      image.mv(`./public/verification-files/${agentId}.jpg`, (err) => {
+        if (!err) {
+          res.redirect('/agent/my-profile');
+        } else {
+          console.log(err);
+          res.redirect('/agent/my-profile');
+        }
+      });
+    } else {
+      res.redirect('/agent/my-profile');
+    }
+  });
+});
+
 module.exports = router;

@@ -77,4 +77,11 @@ router.get('/all-users', verifyAdminLogin, async (req, res) => {
     res.render('admin/all-agents', { admin: true, agents, name });
   });
 
+  router.get('/verify-agents', verifyAdminLogin, async (req, res) => {
+    let name = req.session.admin;
+    let agents = await adminHelpers.getAllAgentsWithProfileImage();
+    console.log(agents)
+    res.render('admin/verify-agent', { admin: true, name, agents });
+  });
+
 module.exports = router;

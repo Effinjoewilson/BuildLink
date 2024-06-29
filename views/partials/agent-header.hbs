@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color: #f2f2f2;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">BuildLink</a>
+            <a class="navbar-brand" href="/agent">BuildLink</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -21,11 +21,12 @@
                         <a class="nav-link" href="/agent/my-services">My Services</a>
                     </li>
                 </ul>
-                <form class="d-flex">
-
-                    <p class="mt-1" href="#">{{name}}</p>
-
-                    <a href="/agent/logout" class="btn btn-outline-primary me-2 ms-2">Log Out</a>
+                <form class="d-flex align-items-center">
+                    <a href="/agent/my-profile">
+                        <img src="/images/profile.jpeg" alt="Profile image" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                    </a>
+                    <!-- <p class="mt-1 mb-0">{{name}}</p> -->
+                    <a href="/agent/logout" class="btn btn-outline-primary ms-2">Log Out</a>
                 </form>
             </div>
         </div>
