@@ -20,10 +20,33 @@
                 </div>
             </div>
         </div>
-
     </div>
-    <a href="/admin/verify-agents" class="btn btn-success">Verify Agents</a>
-
+    <div class="row mt-5">
+        <h1>Agents</h1>
+        <div class="col-lg-6 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Verified agents</h5>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-text">{{verifiedAgentCount}}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Unverified agents</h5>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-text">{{unverifiedAgentCount}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-3">
+    <a href="/admin/verify-agents" style="width: 30%;" class="btn btn-success">Verify Agents</a>
+    </div>
 </div>
 <style>
     body {

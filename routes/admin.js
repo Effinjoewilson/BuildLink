@@ -16,7 +16,9 @@ router.get('/', verifyAdminLogin, async function(req, res, next) {
     var name = req.session.admin;
     let userCount = await adminHelpers.getUserCount();
     let agentCount = await adminHelpers.getAgentCount();
-    res.render('admin/main', { admin: true, name, userCount, agentCount });
+    let verifiedAgentCount = await adminHelpers.getVerifiedAgentCount();
+    let unverifiedAgentCount = await adminHelpers.getUnverifiedAgentCount();
+    res.render('admin/main', { admin: true, name, userCount, agentCount, verifiedAgentCount, unverifiedAgentCount });
 });
 
 router.get('/login', function(req, res, next) {
@@ -80,8 +82,20 @@ router.get('/all-users', verifyAdminLogin, async (req, res) => {
   router.get('/verify-agents', verifyAdminLogin, async (req, res) => {
     let name = req.session.admin;
     let agents = await adminHelpers.getAllAgentsWithProfileImage();
-    console.log(agents)
+    //console.log(agents)
     res.render('admin/verify-agent', { admin: true, name, agents });
+  });
+
+  router.post('/verify-agent', verifyAdminLogin, async (req, res) => {
+    let agentId = req.body.agentId;
+    await adminHelpers.verifyAgent(agentId);
+    res.json({ status: true });
+  });
+
+  router.post('/reject-agent', verifyAdminLogin, async (req, res) => {
+    let agentId = req.body.agentId;
+    await adminHelpers.rejectAgent(agentId);
+    res.json({ status: true });
   });
 
 module.exports = router;

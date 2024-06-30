@@ -5,11 +5,11 @@
       <div class="col-12">
         <div class="card card-registration card-registration-2" style="border-radius: 15px;">
           <div class="card-body p-5">
-            <h4 class="mb-4">Verify Agents</h4>
+            <h4 class="mb-4">Unverified Agents</h4>
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Profile Image</th>
+                  {{!--<th scope="col">Profile Image</th>--}}
                   <th scope="col">Full Name</th>
                   <th scope="col">Email</th>
                   <th scope="col">Phone</th>
@@ -22,8 +22,11 @@
               </thead>
               <tbody>
                 {{#each agents}}
+                {{#unless verified}}
+                {{#unless rejected}}
                 <tr>
-                  <td><img src="/verification-files/{{this._id}}.jpg" alt="Profile Image" style="width: 100px; height: 100px;"></td>
+                  {{!--<td><img src="/verification-files/{{this._id}}.jpg" alt="Profile Image"
+                      style="width: 100px; height: 100px;"></td>--}}
                   <td>{{this.fullname}}</td>
                   <td>{{email}}</td>
                   <td>{{phone}}</td>
@@ -31,10 +34,67 @@
                   <td>{{address}}</td>
                   <td>{{state}}</td>
                   <td>{{district}}</td>
-                  <td><a href="/verification-files/{{this._id}}.jpg" download class="btn btn-primary">Download Image</a></td>
-                  <td><span style="font-family: wingdings; font-size: 200%;">&#252;</span></td>
-                  <td><span style="font-family: wingdings; font-size: 200%;">&#x1F5F6;</span></td>
+                  <td><a href="/verification-files/{{this._id}}.jpg" download class="btn btn-primary">Download Image</a>
+                  </td>
+                  <td>
+                    <button class="btn btn-success verify-agent" data-id="{{this._id}}">Accept</button>
+                    <button class="btn btn-danger reject-agent" data-id="{{this._id}}">Reject</button>
+                  </td>
                 </tr>
+                {{/unless}}
+                {{/unless}}
+                {{/each}}
+              </tbody>
+
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="py-5">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-12">
+        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+          <div class="card-body p-5">
+            <h4 class="mb-4">Verified Agents</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  {{!--<th scope="col">Profile Image</th>--}}
+                  <th scope="col">Full Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Company Name</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">State</th>
+                  <th scope="col">District</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each agents}}
+                {{#if verified}}
+                <tr>
+                  {{!--<td><img src="/verification-files/{{this._id}}.jpg" alt="Profile Image"
+                      style="width: 100px; height: 100px;"></td>--}}
+                  <td>{{this.fullname}}</td>
+                  <td>{{email}}</td>
+                  <td>{{phone}}</td>
+                  <td>{{companyName}}</td>
+                  <td>{{address}}</td>
+                  <td>{{state}}</td>
+                  <td>{{district}}</td>
+                  <td><a href="/verification-files/{{this._id}}.jpg" download class="btn btn-primary">Download Image</a>
+                  </td>
+                  <td>
+                    <!-- No action needed for verified agents in this card -->
+                  </td>
+                </tr>
+                {{/if}}
                 {{/each}}
               </tbody>
             </table>
@@ -44,3 +104,56 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function () {
+    $('.verify-agent').on('click', function () {
+      var agentId = $(this).data('id');
+      if (confirm('Are you sure you want to accept this agent?')) {
+        $.ajax({
+          url: '/admin/verify-agent',
+          method: 'POST',
+          data: { agentId: agentId },
+          success: function (response) {
+            if (response.status) {
+              alert('Agent accepted successfully.');
+              location.reload();
+              // Optionally update UI here if needed
+            } else {
+              alert('Failed to accept agent.');
+            }
+          },
+          error: function (err) {
+            console.error('Error accepting agent:', err);
+            alert('Error accepting agent.');
+          }
+        });
+      }
+    });
+
+    $('.reject-agent').on('click', function () {
+      var agentId = $(this).data('id');
+      if (confirm('Are you sure you want to reject this agent?')) {
+        // Implement reject functionality similarly using Ajax
+        $.ajax({
+          url: '/admin/reject-agent',
+          method: 'POST',
+          data: { agentId: agentId },
+          success: function (response) {
+            if (response.status) {
+              alert('Agent Rejected successfully.');
+              location.reload();
+              // Optionally update UI here if needed
+            } else {
+              alert('Failed to reject agent.');
+            }
+          },
+          error: function (err) {
+            console.error('Error rejecting agent:', err);
+            alert('Error rejecting agent.');
+          }
+        });
+      }
+    });
+  });
+</script>

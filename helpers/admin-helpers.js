@@ -83,6 +83,43 @@ module.exports = {
         verificationImage: `/public/verification-files/${agent._id}.jpg`
       })));
     });
+  },
+
+  verifyAgent: (agentId) => {
+    //console.log(agentId)
+    return new Promise(async (resolve, reject) => {
+      await db.get().collection(collection.AGENT_COLLECTION).updateOne(
+        { _id: new ObjectId(agentId) },
+        { $set: { verified: true } }
+      );
+      resolve();
+    });
+  },
+
+  rejectAgent: (agentId) => {
+    return new Promise(async (resolve, reject) => {
+      await db.get().collection(collection.AGENT_COLLECTION).updateOne(
+        { _id: new ObjectId(agentId) },
+        { $set: { verified: false, rejected: true } }
+      );
+      resolve();
+    });
+  },
+
+  getVerifiedAgentCount: () => {
+    return new Promise(async (resolve, reject) => {
+      let count = await db.get().collection(collection.AGENT_COLLECTION).countDocuments({ verified: true });
+      resolve(count);
+    });
+  },
+  
+  getUnverifiedAgentCount: () => {
+    return new Promise(async (resolve, reject) => {
+      let count = await db.get().collection(collection.AGENT_COLLECTION).countDocuments({ verified: false, rejected: { $ne: true } });
+      resolve(count);
+    });
   }
+  
+  
 
 };
