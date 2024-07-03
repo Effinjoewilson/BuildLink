@@ -2,5 +2,6 @@ module.exports={
     USER_COLLECTION:'user',
     AGENT_COLLECTION:'agent',
     AGENT_SERVICES_COLLECTION:'agent services',
-    ADMIN_COLLECTION:'admin'
+    ADMIN_COLLECTION:'admin',
+    SERVICE_COLLECTION:'services'
 }

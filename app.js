@@ -42,6 +42,10 @@ handlebars.registerHelper('hasServices1', function(serviceType, options) {
   return false;
 });
 
+handlebars.registerHelper('hasUnverifiedServices', function (services, options) {
+  return services.some(service => !service.verified) ? options.fn(this) : options.inverse(this);
+});
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -98,4 +98,24 @@ router.get('/all-users', verifyAdminLogin, async (req, res) => {
     res.json({ status: true });
   });
 
+  router.get('/verify-services', verifyAdminLogin, async (req, res) => {
+    let name = req.session.admin;
+    let agentServices = await adminHelpers.getAgentServices();
+    //console.log(agentServices)
+    res.render('admin/verify-services', { admin: true, name, agentServices });
+  });
+
+  router.post('/accept-service', (req, res) => {
+    console.log(req.body)
+    adminHelpers.acceptService(req.body)
+      .then(result => {
+        res.json({ status: true });
+      })
+      .catch(err => {
+        console.error('Error accepting service:', err);
+        res.json({ status: false });
+      });
+  });
+  
+
 module.exports = router;

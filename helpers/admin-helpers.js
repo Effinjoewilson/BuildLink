@@ -118,8 +118,124 @@ module.exports = {
       let count = await db.get().collection(collection.AGENT_COLLECTION).countDocuments({ verified: false, rejected: { $ne: true } });
       resolve(count);
     });
+  },
+  
+  getAgentServices: () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let agentServices = await db.get().collection(collection.AGENT_SERVICES_COLLECTION).aggregate([
+                {
+                    $lookup: {
+                        from: collection.AGENT_COLLECTION,
+                        localField: 'agent',
+                        foreignField: '_id',
+                        as: 'agentDetails'
+                    }
+                },
+                {
+                    $unwind: '$agentDetails'
+                },
+                {
+                    $project: {
+                        services: 1,
+                        'agentDetails._id': 1,
+                        'agentDetails.fullname': 1,
+                        'agentDetails.email': 1,
+                        'agentDetails.phone': 1
+                    }
+                }
+            ]).toArray();
+            resolve(agentServices);
+        } catch (error) {
+            reject(error);
+        }
+    });
+  },
+  
+  acceptService: async (serviceData) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { agentId, serviceType, serviceName } = serviceData;
+  
+        // Find if the service with the same name already exists
+        let existingService = await db.get().collection(collection.SERVICE_COLLECTION).findOne({
+          service_type: serviceType,
+          "services.service_name": serviceName
+        });
+  
+        if (existingService) {
+          // If the service exists, append the agent ID to the existing service
+          await db.get().collection(collection.SERVICE_COLLECTION).updateOne(
+            {
+              _id: existingService._id,
+              "services.service_name": serviceName
+            },
+            {
+              $addToSet: {
+                "services.$.agents": new ObjectId(agentId)
+              }
+            }
+          );
+        } else {
+          // Find if the service with the same service type already exists
+          let existingServiceType = await db.get().collection(collection.SERVICE_COLLECTION).findOne({
+            service_type: serviceType
+          });
+  
+          if (existingServiceType) {
+            // If the service type exists, add the new service to the existing services array
+            await db.get().collection(collection.SERVICE_COLLECTION).updateOne(
+              {
+                _id: existingServiceType._id
+              },
+              {
+                $push: {
+                  services: {
+                    service_name: serviceName,
+                    agents: [new ObjectId(agentId)]
+                  }
+                }
+              }
+            );
+          } else {
+            // If the service type does not exist, create a new service entry
+            let newService = {
+              service_type: serviceType,
+              services: [
+                {
+                  service_name: serviceName,
+                  agents: [new ObjectId(agentId)]
+                }
+              ]
+            };
+            await db.get().collection(collection.SERVICE_COLLECTION).insertOne(newService);
+          }
+        }
+  
+        // Update the verified field to true in the agent services collection
+        await db.get().collection(collection.AGENT_SERVICES_COLLECTION).updateMany(
+          {
+            agent: new ObjectId(agentId),
+            "services.service_type": serviceType,
+            "services.name": serviceName
+          },
+          {
+            $set: {
+              "services.$[elem].verified": true
+            }
+          },
+          {
+            arrayFilters: [
+              { "elem.service_type": serviceType, "elem.name": serviceName }
+            ]
+          }
+        );
+  
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
   
-  
-
 };

@@ -1,0 +1,80 @@
+<div class="container mt-5">
+  <div class="py-3">
+    {{#each agentServices}}
+      {{#hasUnverifiedServices this.services}}
+        <div class="card mt-5">
+          <div class="card-header">
+            <h3>Agent Details</h3>
+            <p><strong>Name:</strong> {{this.agentDetails.fullname}}</p>
+            <p><strong>Email:</strong> {{this.agentDetails.email}}</p>
+            <p><strong>Phone:</strong> {{this.agentDetails.phone}}</p>
+          </div>
+          <div class="card-body">
+            <h4>Services:</h4>
+            {{#each this.services}}
+              {{#unless verified}}
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <div class="service">
+                      <p><strong>Service Type:</strong> {{this.service_type}}</p>
+                      <p><strong>Name:</strong> {{this.name}}</p>
+                      <p><strong>Price:</strong> {{this.price}}</p>
+                      <p><strong>Location:</strong> {{this.location}}</p>
+                      <p><strong>Description:</strong> {{this.description}}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <form class="accept-service-form" action="/admin/accept-service" method="POST">
+                      <input type="hidden" name="agentId" value="{{../agentDetails._id}}">
+                      <div class="form-group">
+                        <label for="serviceType">Change Service Type</label>
+                        <select class="form-control" name="serviceType">
+                          <option value="RAW MATERIAL" {{#isEqual this.service_type "RAW MATERIAL"}}selected{{/isEqual}}>RAW MATERIAL</option>
+                          <option value="MACHINERY" {{#isEqual this.service_type "MACHINERY"}}selected{{/isEqual}}>MACHINERY</option>
+                          <option value="LABOURS" {{#isEqual this.service_type "LABOURS"}}selected{{/isEqual}}>LABOURS</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="serviceName">Change Service Name</label>
+                        <input type="text" class="form-control" name="serviceName" value="{{this.name}}">
+                      </div>
+                      <button type="submit" class="btn btn-primary mt-3">Accept Service</button>
+                    </form>
+                  </div>
+                </div>
+                <hr>
+              {{/unless}}
+            {{/each}}
+          </div>
+        </div>
+      {{/hasUnverifiedServices}}
+    {{/each}}
+  </div>
+</div>
+
+<script>
+$(document).ready(function () {
+  $('.accept-service-form').on('submit', function (event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+    
+    $.ajax({
+      url: '/admin/accept-service',
+      method: 'POST',
+      data: formData,
+      success: function (response) {
+        if (response.status) {
+          alert('Service accepted successfully.');
+          location.reload();
+        } else {
+          alert('Failed to accept service.');
+        }
+      },
+      error: function (err) {
+        console.error('Error accepting service:', err);
+        alert('Error accepting service.');
+      }
+    });
+  });
+});
+</script>
