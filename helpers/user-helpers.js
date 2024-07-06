@@ -1,6 +1,7 @@
 var db = require('../config/connection')
 var collection= require('../config/collections')
 const bcrypt=require('bcrypt')
+var ObjectId = require('mongodb').ObjectId
 
 module.exports={
     doSignup:(userData)=>{
@@ -15,9 +16,12 @@ module.exports={
                 //await db.connect();
                 db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data)=>{
                     //console.log(userData)
-                    console.log("Signup success")
-                    response.user=userData.fullname
+                    let userDetail = {}
+                    userDetail.name=userData.fullname
+                    userDetail.userId=userData._id
+                    response.user=userDetail
                     response.status=true
+                    console.log("Signup success")
                     resolve(response)
                 })
             }else{
@@ -36,9 +40,12 @@ module.exports={
             if(user){
                 bcrypt.compare(userData.password,user.password).then((status)=>{
                     if(status){
-                        console.log("Login success")
-                        response.user=user.fullname
+                        let userDetail = {}
+                        userDetail.name=user.fullname
+                        userDetail.userId=user._id
+                        response.user=userDetail
                         response.status=true
+                        console.log("Login success")
                         resolve(response)
                     }else{
                         console.log("Login failed")
@@ -57,5 +64,53 @@ module.exports={
             let services = await db.get().collection(collection.SERVICE_COLLECTION).find().toArray()
             resolve(services)
         })
-    }
+    },
+
+    addToCart: (user, service) => {
+      //console.log(user)
+      //console.log(service)
+      let serviceObj = {
+          serviceType: service.serviceType,
+          serviceName: service.serviceName,
+          quantity: parseInt(service.quantity)
+      }
+      //console.log(serviceObj)
+      return new Promise(async (resolve, reject) => {
+          try {
+              let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: new ObjectId(user.userId) })
+              if (userCart) {
+                  let serviceExist = userCart.services.findIndex(item => item.serviceName == service.serviceName && item.serviceType == service.serviceType)
+                  if (serviceExist != -1) {
+                      await db.get().collection(collection.CART_COLLECTION).updateOne(
+                          { user: new ObjectId(user.userId), 'services.serviceName': service.serviceName, 'services.serviceType': service.serviceType },
+                          { $inc: { 'services.$.quantity': serviceObj.quantity } }
+                      )
+                      resolve()
+                  } else {
+                      await db.get().collection(collection.CART_COLLECTION).updateOne(
+                          { user: new ObjectId(user.userId) },
+                          { $push: { services: serviceObj } }
+                      )
+                      resolve()
+                  }
+              } else {
+                  let cartObj = {
+                      user: new ObjectId(user.userId),
+                      services: [serviceObj]
+                  }
+                  await db.get().collection(collection.CART_COLLECTION).insertOne(cartObj)
+                  resolve()
+              }
+          } catch (error) {
+              reject(error)
+          }
+      })
+  },
+
+  getCart: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: new ObjectId(userId) });
+      resolve(cart);
+    });
+  }
 }

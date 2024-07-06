@@ -10,12 +10,12 @@ const verifyLogin=(req,res,next)=>{
 }
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', verifyLogin,function(req, res, next) {
   //console.log(req.session)
-  var name = req.session.user
+  var name = req.session.user.name
 
   userHelpers.getServices().then((services)=>{
-    console.log(services)
+    //console.log(services)
     res.render('user/main',{user:true,name,services});
   })
 });
@@ -71,5 +71,27 @@ router.get('/logout',(req,res)=>{
   req.session.userLoggedIn=false
   res.redirect('/')
 })
+
+router.post('/add-to-crate', verifyLogin, (req, res) => {
+  //console.log(req.session)
+  userHelpers.addToCart(req.session.user, req.body).then((response) => {
+    res.json({ status: true });
+  }).catch((err) => {
+    res.json({ status: false });
+  });
+})
+
+router.get('/cart', verifyLogin, function (req, res, next) {
+  var name = req.session.user.name
+  userHelpers.getCart(req.session.user.userId).then((cart) => {
+    res.render('user/cart', { user: true, cart, name });
+  });
+});
+
+router.post('/post-services', verifyLogin, (req, res) => {
+  const { district, location } = req.body;
+  // Implement your logic to handle posting services
+  res.json({ status: true });
+});
 
 module.exports = router;

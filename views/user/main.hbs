@@ -34,7 +34,9 @@
                     {{#isEqual service_type 'RAW MATERIAL'}}
                         {{#each services}}
                             <div class="col-4 col-md-3 col-lg-2">
-                                <div class="card custom-card">
+                                <div class="card custom-card service-card"
+                                     data-name="{{service_name}}"
+                                     data-serviceType="RAW MATERIALS">
                                     <div class="card-body">
                                         <h5 class="card-title">{{service_name}}</h5>
                                         <p class="card-text">Agents: {{agents.length}}</p>
@@ -54,7 +56,9 @@
                     {{#isEqual service_type "MACHINERY"}}
                         {{#each services}}
                             <div class="col-4 col-md-3 col-lg-2">
-                                <div class="card custom-card">
+                                <div class="card custom-card service-card" 
+                                     data-name="{{service_name}}"
+                                     data-serviceType="MACHINERY">
                                     <div class="card-body">
                                         <h5 class="card-title">{{service_name}}</h5>
                                         <p class="card-text">Agents: {{agents.length}}</p>
@@ -74,7 +78,9 @@
                     {{#isEqual service_type "LABOURS"}}
                         {{#each services}}
                             <div class="col-4 col-md-3 col-lg-2">
-                                <div class="card custom-card">
+                                <div class="card custom-card service-card" 
+                                     data-name="{{service_name}}"
+                                     data-serviceType="LABOURS">
                                     <div class="card-body">
                                         <h5 class="card-title">{{service_name}}</h5>
                                         <p class="card-text">Agents: {{agents.length}}</p>
@@ -97,41 +103,127 @@
     {{/if}}
 </section>
 
+<!-- Modal HTML -->
+<div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="serviceModalLabel">Service Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3 id="modalServiceType"></h3>
+                <br>
+                <h5 id="modalServiceName"></h5>
+                <p id="modalServicePrice"></p>
+                <p id="modalServiceLocation"></p>
+                <form id="add-to-crate-form">
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" min="1" required>
+                    </div>
+                     <input type="hidden" id="serviceName">
+                     <input type="hidden" id="serviceType">
+                    <button class="btn btn-primary">Add to Crate</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
     .mt-after-header {
-        margin-top: 100px; /* Adjust this value according to your header height */
+        margin-top: 100px;
     }
     
     .custom-card {
-        height: 150px; /* Default height */
-        width: 90%; /* Adjust the width as desired */
-        max-width: 250px; /* Limit the maximum width if needed */
-        margin-bottom: 15px; /* Add space between cards */
+        height: 150px;
+        width: 90%;
+        max-width: 250px;
+        margin-bottom: 15px;
     }
 
     .custom-card .card-body {
-        font-size: 16px; /* Default font size */
+        font-size: 16px;
     }
     
     @media (max-width: 991.98px) {
         .custom-card {
-            height: 120px; /* Adjusted height for small devices */
-            margin-bottom: 15px; /* Add space between cards */
+            height: 120px;
+            margin-bottom: 15px;
         }
 
         .custom-card .card-body {
-            font-size: 12px; /* Decrease font size for small devices */
+            font-size: 12px;
         }
     }
 
     @media (min-width: 768px) and (max-width: 991.98px) {
         .custom-card {
-            height: 130px; /* Adjusted height for medium devices */
-            width: 85%; /* Make the card smaller */
+            height: 130px;
+            width: 85%;
         }
 
         .custom-card .card-body {
-            font-size: 14px; /* Decrease font size for medium devices */
+            font-size: 14px;
         }
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const serviceCards = document.querySelectorAll('.service-card');
+        const serviceModal = new bootstrap.Modal(document.getElementById('serviceModal'));
+
+        serviceCards.forEach(card => {
+            card.addEventListener('click', function () {
+                const name = card.getAttribute('data-name');
+                const service_type = card.getAttribute('data-serviceType');
+
+                document.getElementById('modalServiceName').textContent = name;
+                document.getElementById('modalServiceType').textContent = service_type;
+                document.getElementById('serviceName').value = name;
+                document.getElementById('serviceType').value = service_type;
+
+                serviceModal.show();
+            });
+        });
+
+        const addToCartForm = document.getElementById('add-to-crate-form');
+        addToCartForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const quantity = document.getElementById('quantity').value;
+            const serviceName = document.getElementById('serviceName').value;
+            const serviceType = document.getElementById('serviceType').value;
+
+            //console.log(`Adding to crate: ServiceType: ${serviceType}, Name: ${serviceName}, Quantity: ${quantity}`);
+
+            // Using AJAX to send the form data to the server
+            $.ajax({
+                url: '/user/add-to-crate',
+                type: 'POST',
+                data: { serviceType : serviceType,
+                        serviceName : serviceName,
+                        quantity : quantity
+                },
+                success: function (response) {
+                    if(response.status){
+                        console.log('Success:', data);
+                        alert("Service Added to cart")
+                        // Optionally show a success message or update the UI
+                    }else{
+                        alert('Failed to Add To cart!!  Try again');
+                        console.log('Failed:', data);
+                    }
+                    
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+
+            serviceModal.hide();
+        });
+    });
+</script>

@@ -1,0 +1,112 @@
+<style>
+    .card-container {
+        max-width: 800px;
+        margin: 100px auto 20px; /* Adjusted margin to provide space below the navbar */
+    }
+    .card-content {
+        padding: 20px;
+    }
+    .center-align {
+        text-align: center;
+    }
+    .edit-btn, .delete-btn {
+        padding: 5px 10px;
+        margin-right: 5px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="card card-container">
+        <div class="card-body card-content">
+            <h2 class="mb-4">BuildLink - Cart</h2>
+            {{#if cart.services}}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Service Type</th>
+                            <th>Service Name</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each cart.services}}
+                            <tr>
+                                <td>{{this.serviceType}}</td>
+                                <td>{{this.serviceName}}</td>
+                                <td>{{this.quantity}}</td>
+                                <td class="center-align">
+                                    <button class="btn btn-info edit-btn" data-serviceid="{{this._id}}">Edit</button>
+                                    <button class="btn btn-danger delete-btn" data-serviceid="{{this._id}}">Delete</button>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            <br>
+            <div class="mt-4 center-align">
+                <form id="post-services-form">
+                    <div class="form-group">
+                        <label for="district">District</label>
+                        <select class="form-control" id="district" required>
+                            <option value="ERNAKULAM">ERNAKULAM</option>
+                        </select>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="location">Exact Location</label>
+                        <input type="text" class="form-control" id="location" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Post Services</button>
+                </form>
+            </div>
+            {{else}}
+                <p>No services in your cart.</p>
+                <a href="/user" class="btn btn-primary">Add Services</a>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const postServicesForm = document.getElementById('post-services-form');
+
+        postServicesForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const district = document.getElementById('district').value;
+            const location = document.getElementById('location').value;
+
+            $.ajax({
+                url: '/user/post-services',
+                type: 'POST',
+                data: {
+                    district: district,
+                    location: location
+                },
+                success: function (response) {
+                    if (response.status) {
+                        alert("Services posted successfully!");
+                    } else {
+                        alert("Failed to post services. Try again.");
+                    }
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+        // Example for edit and delete button functionality (not implemented in this response)
+        // Handle edit and delete actions using AJAX or form submission
+        $('.edit-btn').click(function() {
+            var serviceId = $(this).data('serviceid');
+            // Implement edit functionality
+        });
+
+        $('.delete-btn').click(function() {
+            var serviceId = $(this).data('serviceid');
+            // Implement delete functionality
+        });
+    });
+</script>

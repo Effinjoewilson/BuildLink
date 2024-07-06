@@ -3,5 +3,6 @@ module.exports={
     AGENT_COLLECTION:'agent',
     AGENT_SERVICES_COLLECTION:'agent services',
     ADMIN_COLLECTION:'admin',
-    SERVICE_COLLECTION:'services'
+    SERVICE_COLLECTION:'services',
+    CART_COLLECTION: 'cart'
 }
