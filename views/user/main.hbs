@@ -26,24 +26,23 @@
         </div>
     </div>
 
-    {{#if agentServices}}
+    {{#if services}}
         {{#if (hasServices "RAW MATERIAL")}}
             <h2 class="hai mt-5">RAW MATERIALS</h2>
             <div class="row mt-4">
-                {{#each agentServices}}
-                    {{#each services}}
-                        {{#isEqual service_type 'RAW MATERIAL'}}
+                {{#each services}}
+                    {{#isEqual service_type 'RAW MATERIAL'}}
+                        {{#each services}}
                             <div class="col-4 col-md-3 col-lg-2">
                                 <div class="card custom-card">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{name}}</h5>
-                                        <p class="card-text">Price: {{price}}</p>
-                                        <p class="card-text">Location: {{location}}</p>
+                                        <h5 class="card-title">{{service_name}}</h5>
+                                        <p class="card-text">Agents: {{agents.length}}</p>
                                     </div>
                                 </div>
                             </div>
-                        {{/isEqual}}
-                    {{/each}}
+                        {{/each}}
+                    {{/isEqual}}
                 {{/each}}
             </div>
         {{/if}}
@@ -51,20 +50,19 @@
         {{#if (hasServices "MACHINERY")}}
             <h2 class="mt-5">Machinery</h2>
             <div class="row mt-4">
-                {{#each agentServices}}
-                    {{#each services}}
-                        {{#isEqual service_type "MACHINERY"}}
+                {{#each services}}
+                    {{#isEqual service_type "MACHINERY"}}
+                        {{#each services}}
                             <div class="col-4 col-md-3 col-lg-2">
                                 <div class="card custom-card">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{name}}</h5>
-                                        <p class="card-text">Price: {{price}}</p>
-                                        <p class="card-text">Location: {{location}}</p>
+                                        <h5 class="card-title">{{service_name}}</h5>
+                                        <p class="card-text">Agents: {{agents.length}}</p>
                                     </div>
                                 </div>
                             </div>
-                        {{/isEqual}}
-                    {{/each}}
+                        {{/each}}
+                    {{/isEqual}}
                 {{/each}}
             </div>
         {{/if}}
@@ -72,20 +70,19 @@
         {{#if (hasServices "LABOURS")}}
             <h2 class="mt-5">Labourers</h2>
             <div class="row mt-4">
-                {{#each agentServices}}
-                    {{#each services}}
-                        {{#isEqual service_type "LABOURS"}}
+                {{#each services}}
+                    {{#isEqual service_type "LABOURS"}}
+                        {{#each services}}
                             <div class="col-4 col-md-3 col-lg-2">
                                 <div class="card custom-card">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{name}}</h5>
-                                        <p class="card-text">Price: {{price}}</p>
-                                        <p class="card-text">Location: {{location}}</p>
+                                        <h5 class="card-title">{{service_name}}</h5>
+                                        <p class="card-text">Agents: {{agents.length}}</p>
                                     </div>
                                 </div>
                             </div>
-                        {{/isEqual}}
-                    {{/each}}
+                        {{/each}}
+                    {{/isEqual}}
                 {{/each}}
             </div>
         {{/if}}

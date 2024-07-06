@@ -52,15 +52,10 @@ module.exports={
         })
     },
 
-    getAgentServices:()=>{
-        return new Promise(async(resolve,reject)=>{
-            try {
-                const agentServices = await db.get().collection(collection.AGENT_SERVICES_COLLECTION).find({}).toArray();
-                //console.log(agentServices)
-                resolve(agentServices);
-            } catch (error) {
-                reject(error);
-            }
+    getServices: () => {
+        return new Promise(async (resolve, reject) => {
+            let services = await db.get().collection(collection.SERVICE_COLLECTION).find().toArray()
+            resolve(services)
         })
     }
 }

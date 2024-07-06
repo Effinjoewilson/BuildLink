@@ -21,12 +21,10 @@ handlebars.registerHelper('isEqual', function (value1, value2, options) {
 });
 
 handlebars.registerHelper('hasServices', function(serviceType, options) {
-  var agentServices = options.data.root.agentServices;
-  for (var i = 0; i < agentServices.length; i++) {
-      for (var j = 0; j < agentServices[i].services.length; j++) {
-          if (agentServices[i].services[j].service_type === serviceType) {
-              return true;
-          }
+  var services = options.data.root.services;
+  for (var i = 0; i < services.length; i++) {
+      if (services[i].service_type === serviceType) {
+          return true;
       }
   }
   return false;

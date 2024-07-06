@@ -14,9 +14,9 @@ router.get('/', function(req, res, next) {
   //console.log(req.session)
   var name = req.session.user
 
-  userHelpers.getAgentServices().then((agentServices)=>{
-    //console.log(agentServices)
-    res.render('user/main',{user:true,name,agentServices});
+  userHelpers.getServices().then((services)=>{
+    console.log(services)
+    res.render('user/main',{user:true,name,services});
   })
 });
 
