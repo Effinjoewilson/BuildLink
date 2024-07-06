@@ -112,5 +112,33 @@ module.exports={
       let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: new ObjectId(userId) });
       resolve(cart);
     });
-  }
+  },
+
+    editCart: (userId, serviceName, quantity) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await db.get().collection(collection.CART_COLLECTION).updateOne(
+                    { user: new ObjectId(userId), 'services.serviceName': serviceName },
+                    { $set: { 'services.$.quantity': parseInt(quantity) } }
+                );
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
+    },
+
+    deleteFromCart: (userId, serviceName) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await db.get().collection(collection.CART_COLLECTION).updateOne(
+                    { user: new ObjectId(userId) },
+                    { $pull: { services: { serviceName: serviceName } } }
+                );
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
 }

@@ -1,7 +1,7 @@
 <style>
     .card-container {
         max-width: 800px;
-        margin: 100px auto 20px; /* Adjusted margin to provide space below the navbar */
+        margin: 100px auto 20px;
     }
     .card-content {
         padding: 20px;
@@ -34,31 +34,31 @@
                             <tr>
                                 <td>{{this.serviceType}}</td>
                                 <td>{{this.serviceName}}</td>
-                                <td>{{this.quantity}}</td>
+                                <td><input type="number" value="{{this.quantity}}" class="form-control quantity-input" data-serviceid="{{this.serviceName}}"></td>
                                 <td class="center-align">
-                                    <button class="btn btn-info edit-btn" data-serviceid="{{this._id}}">Edit</button>
-                                    <button class="btn btn-danger delete-btn" data-serviceid="{{this._id}}">Delete</button>
+                                    <button class="btn btn-info edit-btn" data-serviceid="{{this.serviceName}}">Edit</button>
+                                    <button class="btn btn-danger delete-btn" data-serviceid="{{this.serviceName}}">Delete</button>
                                 </td>
                             </tr>
                         {{/each}}
                     </tbody>
                 </table>
-            <br>
-            <div class="mt-4 center-align">
-                <form id="post-services-form">
-                    <div class="form-group">
-                        <label for="district">District</label>
-                        <select class="form-control" id="district" required>
-                            <option value="ERNAKULAM">ERNAKULAM</option>
-                        </select>
-                    </div>
-                    <div class="form-group mt-3">
-                        <label for="location">Exact Location</label>
-                        <input type="text" class="form-control" id="location" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Post Services</button>
-                </form>
-            </div>
+                <br>
+                <div class="mt-4 center-align">
+                    <form id="post-services-form">
+                        <div class="form-group">
+                            <label for="district">District</label>
+                            <select class="form-control" id="district" required>
+                                <option value="ERNAKULAM">ERNAKULAM</option>
+                            </select>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="location">Exact Location</label>
+                            <input type="text" class="form-control" id="location" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Post Services</button>
+                    </form>
+                </div>
             {{else}}
                 <p>No services in your cart.</p>
                 <a href="/user" class="btn btn-primary">Add Services</a>
@@ -97,16 +97,54 @@
             });
         });
 
-        // Example for edit and delete button functionality (not implemented in this response)
-        // Handle edit and delete actions using AJAX or form submission
+        // Handle edit functionality
         $('.edit-btn').click(function() {
-            var serviceId = $(this).data('serviceid');
-            // Implement edit functionality
+            var serviceName = $(this).data('serviceid');
+            var quantity = $(`.quantity-input[data-serviceid='${serviceName}']`).val();
+            $.ajax({
+                url: '/user/edit-cart',
+                type: 'POST',
+                data: {
+                    serviceName: serviceName,
+                    quantity: quantity
+                },
+                success: function(response) {
+                    if (response.status) {
+                        alert("Service quantity updated successfully!");
+                        location.reload();
+                    } else {
+                        alert("Failed to update service quantity. Try again.");
+                    }
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
         });
 
+        // Handle delete functionality
         $('.delete-btn').click(function() {
-            var serviceId = $(this).data('serviceid');
-            // Implement delete functionality
+            var serviceName = $(this).data('serviceid');
+            if (confirm('Are you sure you want to delete the service')){
+                $.ajax({
+                    url: '/user/delete-cart',
+                    type: 'POST',
+                    data: {
+                        serviceName: serviceName
+                    },
+                    success: function(response) {
+                        if (response.status) {
+                            alert("Service deleted successfully!");
+                            location.reload();
+                        } else {
+                            alert("Failed to delete service. Try again.");
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
         });
     });
 </script>

@@ -94,4 +94,23 @@ router.post('/post-services', verifyLogin, (req, res) => {
   res.json({ status: true });
 });
 
+router.post('/edit-cart', verifyLogin, (req, res) => {
+  const { serviceName, quantity } = req.body;
+  userHelpers.editCart(req.session.user.userId, serviceName, quantity).then(() => {
+      res.json({ status: true });
+  }).catch((err) => {
+      res.json({ status: false });
+  });
+});
+
+router.post('/delete-cart', verifyLogin, (req, res) => {
+  const { serviceName } = req.body;
+  userHelpers.deleteFromCart(req.session.user.userId, serviceName).then(() => {
+      res.json({ status: true });
+  }).catch((err) => {
+      res.json({ status: false });
+  });
+});
+
+
 module.exports = router;
