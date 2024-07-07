@@ -9,13 +9,13 @@ const verifyLogin=(req,res,next)=>{
   }
 }
 
-router.get('/',verifyLogin,(req, res)=> {
-  //console.log(req.session)
-   var name = req.session.agent.name
-   agentHelpers.getAllServiceRequests().then((users) => {
-      res.render('agent/main', { agent: true, name, users });
-    });
+router.get('/', verifyLogin, (req, res) => {
+  var name = req.session.agent.name;
+  var verified = req.session.agent.verified;
+  agentHelpers.getAllServiceRequests().then((users) => {
+    res.render('agent/main', { agent: true, name, verified, users });
   });
+});
 
 router.get('/login',(req, res)=> {
   //console.log("agent")

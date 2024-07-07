@@ -20,6 +20,7 @@ module.exports = {
                     let agentDetail = {}
                     agentDetail.agentId = data.insertedId
                     agentDetail.name = agentData.fullname
+                    agentDetail.verified = agentData.verified;
                     response.agent = agentDetail
                     response.status = true
                     resolve(response)
@@ -44,6 +45,7 @@ module.exports = {
                         let agentDetail = {}
                         agentDetail.agentId = agent._id
                         agentDetail.name = agent.fullname
+                        agentDetail.verified = agent.verified;
                         response.agent = agentDetail
                         response.status = true
                         resolve(response)
