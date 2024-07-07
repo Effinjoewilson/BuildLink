@@ -46,17 +46,18 @@
                 <br>
                 <div class="mt-4 center-align">
                     <form id="post-services-form">
-                        <div class="form-group">
-                            <label for="district">District</label>
-                            <select class="form-control" id="district" required>
-                                <option value="ERNAKULAM">ERNAKULAM</option>
+                        <div class="mb-3">
+                            <label for="district" class="form-label">District</label>
+                            <select class="form-select" id="district" name="district">
+                            <option value="ERNAKULAM" selected>ERNAKULAM</option>
+                            <!-- Add other district options if needed -->
                             </select>
                         </div>
-                        <div class="form-group mt-3">
-                            <label for="location">Exact Location</label>
-                            <input type="text" class="form-control" id="location" required>
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="location" name="location" required>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3">Post Services</button>
+                        <button type="submit" class="btn btn-primary">Post Services</button>
                     </form>
                 </div>
             {{else}}
@@ -87,6 +88,7 @@
                 success: function (response) {
                     if (response.status) {
                         alert("Services posted successfully!");
+                        location.reload();
                     } else {
                         alert("Failed to post services. Try again.");
                     }

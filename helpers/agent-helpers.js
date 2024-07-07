@@ -132,5 +132,70 @@ module.exports = {
             reject(error);
           }
         });
-    }
+    },
+
+    getAllServiceRequests: () => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            let serviceRequests = await db.get().collection(collection.SERVICE_REQUESTS_COLLECTION).aggregate([
+              {
+                $lookup: {
+                  from: collection.USER_COLLECTION,
+                  localField: "userId",
+                  foreignField: "_id",
+                  as: "userDetails"
+                }
+              },
+              {
+                $unwind: "$userDetails"
+              },
+              {
+                $group: {
+                  _id: "$userId",
+                  userId: { $first: "$userId" },
+                  services: {
+                    $push: {
+                      _id: "$_id",
+                      serviceType: "$serviceType",
+                      serviceName: "$serviceName",
+                      quantity: "$quantity",
+                      district: "$district",
+                      location: "$location",
+                      status: "$status"
+                    }
+                  }
+                }
+              },
+              {
+                $project: {
+                  _id: 0,
+                  userId: 1,
+                  services: 1
+                }
+              }
+            ]).toArray();
+            resolve(serviceRequests);
+          } catch (error) {
+            reject(error);
+          }
+        });
+      },
+    
+      updateServicePrice: (serviceId, price) => {
+        return new Promise((resolve, reject) => {
+          db.get().collection(collection.SERVICE_REQUESTS_COLLECTION).updateOne(
+            { _id: new ObjectId(serviceId) },
+            {
+              $set: {
+                price: price,
+                status: 'updated'
+              }
+            }
+          ).then((response) => {
+            resolve(response);
+          }).catch((error) => {
+            reject(error);
+          });
+        });
+      }
 }

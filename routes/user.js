@@ -88,10 +88,20 @@ router.get('/cart', verifyLogin, function (req, res, next) {
   });
 });
 
-router.post('/post-services', verifyLogin, (req, res) => {
+router.post('/post-services', verifyLogin, async (req, res) => {
   const { district, location } = req.body;
-  // Implement your logic to handle posting services
-  res.json({ status: true });
+  try {
+      // Fetch user's cart to post services
+      let cart = await userHelpers.getCart(req.session.user.userId);
+
+      // Post services to service requests collection and clear cart
+      await userHelpers.postServices(req.session.user.userId, district, location, cart);
+
+      res.json({ status: true });
+  } catch (error) {
+      console.error('Error posting services:', error);
+      res.json({ status: false });
+  }
 });
 
 router.post('/edit-cart', verifyLogin, (req, res) => {

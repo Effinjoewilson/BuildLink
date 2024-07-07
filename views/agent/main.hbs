@@ -1,37 +1,240 @@
-<div class="container mt-after-header">
-    <div class="row mt-5">
-        <div class="col-md-6 offset-md-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h2 class="card-title">Welcome, Agent!</h2>
-                    <p class="card-text">Please declare your services below:</p>
-                    
-                    <!-- Service Declaration Form -->
-                    <form action="/declare-services" method="POST">
-                        <div class="form-group">
-                            <label for="service1">Service 1:</label>
-                            <input type="text" class="form-control" id="service1" name="service1" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="service2">Service 2:</label>
-                            <input type="text" class="form-control" id="service2" name="service2" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="service3">Service 3:</label>
-                            <input type="text" class="form-control" id="service3" name="service3" required>
-                        </div>
-                        <!-- Add more service fields as needed -->
-
-                        <button type="submit" class="btn btn-primary">Declare Services</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container mt-5">
+  <section class="section profile mt-5">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-body pt-3">
+            <!-- Bordered Tabs -->
+            <ul class="nav nav-tabs nav-tabs-bordered">
+              {{#each users}}
+              <li class="nav-item">
+                <button class="nav-link {{#if @first}}active{{/if}}" data-bs-toggle="tab" data-bs-target="#profile-overview-{{this.userId}}">User {{@index}}</button>
+              </li>
+              {{/each}}
+            </ul>
+            <div class="tab-content pt-2">
+              {{#each users}}
+              <div class="tab-pane fade show {{#if @first}}active{{/if}} profile-overview" id="profile-overview-{{this.userId}}">
+                <div class="row">
+                  <div class="card">
+                    <div class="card-header text-center">SERVICES NEEDED</div>
+                    <div class="card-body mt-5">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Service Type</th>
+                            <th scope="col">Service Name</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {{#each this.services}}
+                          <tr>
+                            <td>{{serviceType}}</td>
+                            <td>{{serviceName}}</td>
+                            <td>{{quantity}}</td>
+                            <td>{{location}}</td>
+                            <td><input type="text" class="form-control" name="price" id="price-{{_id}}" /></td>
+                            <td><button class="btn btn-primary" onclick="submitPrice('{{_id}}')">Submit</button></td>
+                          </tr>
+                          {{/each}}
+                        </tbody>
+                      </table>
+                    </div><!-- End Card Body -->
+                  </div><!-- End Card -->
+                </div><!-- End Row -->
+              </div><!-- End Profile Overview -->
+              {{/each}}
+            </div><!-- End Tab Content -->
+          </div><!-- End Card Body -->
+        </div><!-- End Card -->
+      </div><!-- End Col -->
+    </div><!-- End Row -->
+  </section>
 </div>
 
+<script>
+  function submitPrice(serviceId) {
+    var price = document.getElementById('price-' + serviceId).value;
+    $.ajax({
+      url: '/agent/update-service-price',
+      type: 'POST',
+      data: {
+        serviceId: serviceId,
+        price: price
+      },
+      success: function(response) {
+        if (response.status) {
+          alert("Price updated successfully!");
+          location.reload();
+        } else {
+          alert("Failed to update price. Try again.");
+        }
+      },
+      error: function(error) {
+        console.error('Error:', error);
+      }
+    });
+  }
+</script>
+
+
+
 <style>
-    .mt-after-header {
-        margin-top: 100px; /* Adjust this value according to your header height */
+  .mt-after-header {
+    margin-top: 100px;
+    /* Adjust this value according to your header height */
+  }
+
+  :root {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: "Open Sans", sans-serif;
+    background: #f6f9ff;
+    color: #444444;
+  }
+
+  a {
+    color: #4154f1;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #717ff5;
+    text-decoration: none;
+  }
+
+  /*--------------------------------------------------------------
+  # Main
+  --------------------------------------------------------------*/
+  #main {
+    margin-top: 60px;
+    padding: 20px 30px;
+    transition: all 0.3s;
+  }
+
+  @media (max-width: 1199px) {
+    #main {
+      padding: 20px;
     }
+  }
+
+  /* Card */
+  .card {
+    margin-bottom: 30px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+  }
+
+  .card-header,
+  .card-footer {
+    border-color: #ebeef4;
+    background-color: #fff;
+    color: #798eb3;
+    padding: 15px;
+  }
+
+  .card-title {
+    padding: 20px 0 15px 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #012970;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .card-title span {
+    color: #899bbd;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .card-body {
+    padding: 0 20px 20px 20px;
+  }
+
+  .card-img-overlay {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* Bordered Tabs */
+  .nav-tabs-bordered {
+    border-bottom: 2px solid #ebeef4;
+  }
+
+  .nav-tabs-bordered .nav-link {
+    margin-bottom: -2px;
+    border: none;
+    color: #2c384e;
+  }
+
+  .nav-tabs-bordered .nav-link:hover,
+  .nav-tabs-bordered .nav-link:focus {
+    color: #4154f1;
+  }
+
+  .nav-tabs-bordered .nav-link.active {
+    background-color: #fff;
+    color: #4154f1;
+    border-bottom: 2px solid #4154f1;
+  }
+
+  /*--------------------------------------------------------------
+  # Profie Page
+  --------------------------------------------------------------*/
+  .profile .profile-card img {
+    max-width: 120px;
+  }
+
+  .profile .profile-card h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c384e;
+    margin: 10px 0 0 0;
+  }
+
+  .profile .profile-card h3 {
+    font-size: 18px;
+  }
+
+  .profile .profile-card .social-links a {
+    font-size: 20px;
+    display: inline-block;
+    color: rgba(1, 41, 112, 0.5);
+    line-height: 0;
+    margin-right: 10px;
+    transition: 0.3s;
+  }
+
+  .profile .profile-card .social-links a:hover {
+    color: #012970;
+  }
+
+  .profile .profile-overview .row {
+    margin-bottom: 20px;
+    font-size: 15px;
+  }
+
+  .profile .profile-overview .card-title {
+    color: #012970;
+  }
+
+  .profile .profile-overview .label {
+    font-weight: 600;
+    color: rgba(1, 41, 112, 0.6);
+  }
+
+  .profile .profile-edit label {
+    font-weight: 600;
+    color: rgba(1, 41, 112, 0.6);
+  }
+
+  .profile .profile-edit img {
+    max-width: 120px;
+  }
 </style>

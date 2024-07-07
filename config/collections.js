@@ -4,5 +4,6 @@ module.exports={
     AGENT_SERVICES_COLLECTION:'agent services',
     ADMIN_COLLECTION:'admin',
     SERVICE_COLLECTION:'services',
-    CART_COLLECTION: 'cart'
+    CART_COLLECTION: 'cart',
+    SERVICE_REQUESTS_COLLECTION:'service requests'
 }

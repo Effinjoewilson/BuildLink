@@ -9,10 +9,12 @@ const verifyLogin=(req,res,next)=>{
   }
 }
 
-router.get('/',(req, res)=> {
+router.get('/',verifyLogin,(req, res)=> {
   //console.log(req.session)
    var name = req.session.agent.name
-    res.render('agent/main',{agent:true,name});
+   agentHelpers.getAllServiceRequests().then((users) => {
+      res.render('agent/main', { agent: true, name, users });
+    });
   });
 
 router.get('/login',(req, res)=> {
@@ -114,6 +116,16 @@ router.post('/update-profile', verifyLogin, (req, res) => {
     } else {
       res.redirect('/agent/my-profile');
     }
+  });
+});
+
+router.post('/update-service-price', verifyLogin, (req, res) => {
+  let { serviceId, price } = req.body;
+  agentHelpers.updateServicePrice(serviceId, price).then(() => {
+    res.json({ status: true });
+  }).catch((error) => {
+    console.error(error);
+    res.json({ status: false });
   });
 });
 

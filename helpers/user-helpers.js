@@ -140,5 +140,33 @@ module.exports={
                 reject(error);
             }
         });
+    },
+
+    postServices: (userId, district, location, cart) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                // Iterate through each service in cart and create service request
+                for (const service of cart.services) {
+                    let serviceRequest = {
+                        userId: new ObjectId(userId),
+                        serviceType: service.serviceType,
+                        serviceName: service.serviceName,
+                        quantity: service.quantity,
+                        district: district,
+                        location: location,
+                        status: 'pending' // or any initial status
+                    };
+
+                    await db.get().collection(collection.SERVICE_REQUESTS_COLLECTION).insertOne(serviceRequest);
+                }
+
+                // Clear user's cart after posting services
+                await db.get().collection(collection.CART_COLLECTION).deleteOne({ user: new ObjectId(userId) });
+
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 }
