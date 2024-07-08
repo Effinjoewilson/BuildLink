@@ -199,5 +199,31 @@ module.exports = {
             reject(error);
           });
         });
+      },
+
+      addAgentServiceRequest: (serviceId, agentId, price) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            let serviceRequest = await db.get().collection(collection.SERVICE_REQUESTS_COLLECTION).findOne({ _id: new ObjectId(serviceId) });
+            if (serviceRequest) {
+              let agentServiceRequest = {
+                userId: serviceRequest.userId,
+                agentId: new ObjectId(agentId),
+                serviceType: serviceRequest.serviceType,
+                serviceName: serviceRequest.serviceName,
+                quantity: serviceRequest.quantity,
+                location: serviceRequest.location,
+                price: price,
+                status: 'requested'
+              };
+              await db.get().collection(collection.AGENT_SERVICE_REQUEST_COLLECTION).insertOne(agentServiceRequest);
+              resolve();
+            } else {
+              reject(new Error("Service request not found"));
+            }
+          } catch (error) {
+            reject(error);
+          }
+        });
       }
 }

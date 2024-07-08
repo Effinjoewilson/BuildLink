@@ -20,6 +20,10 @@ handlebars.registerHelper('isEqual', function (value1, value2, options) {
   return value1 === value2 ? options.fn(this) : options.inverse(this);
 });
 
+handlebars.registerHelper('isEqual1', function (a, b) {
+  return String(a) === String(b);
+});
+
 handlebars.registerHelper('hasServices', function(serviceType, options) {
   var services = options.data.root.services;
   for (var i = 0; i < services.length; i++) {

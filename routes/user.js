@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const userHelpers = require('../helpers/user-helpers')
+var ObjectId = require('mongodb').ObjectId
 const verifyLogin=(req,res,next)=>{
   if(req.session.userLoggedIn){
     next()
@@ -122,5 +123,22 @@ router.post('/delete-cart', verifyLogin, (req, res) => {
   });
 });
 
+router.get('/orders', verifyLogin, async function (req, res, next) {
+  var name = req.session.user.name
+  try {
+    const userId = req.session.user.userId;
+    const serviceRequests = await userHelpers.getServiceRequestsByUser(userId);
+    //console.log("serviceRequests : ", serviceRequests);
+
+    // Ensure agentServiceRequests includes serviceId for matching
+    const agentServiceRequests = await userHelpers.getAgentServiceRequestsByUser(userId);
+    //console.log("agentServiceRequests : ", agentServiceRequests);
+
+    res.render('user/orders', { user: true, serviceRequests, agentServiceRequests, name });
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.redirect('/user');
+  }
+});
 
 module.exports = router;

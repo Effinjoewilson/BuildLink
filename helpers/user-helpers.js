@@ -168,5 +168,27 @@ module.exports={
                 reject(error);
             }
         });
-    }
+    },
+
+    getServiceRequestsByUser: (userId) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            let serviceRequests = await db.get().collection(collection.SERVICE_REQUESTS_COLLECTION).find({ userId: new ObjectId(userId) }).toArray();
+            resolve(serviceRequests);
+          } catch (error) {
+            reject(error);
+          }
+        });
+      },
+    
+      getAgentServiceRequestsByUser: (userId) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            let agentServiceRequests = await db.get().collection(collection.AGENT_SERVICE_REQUEST_COLLECTION).find({ userId: new ObjectId(userId) }).toArray();
+            resolve(agentServiceRequests);
+          } catch (error) {
+            reject(error);
+          }
+        });
+      }
 }

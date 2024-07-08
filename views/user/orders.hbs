@@ -1,0 +1,66 @@
+<div class="container mt-5">
+  <section class="section profile mt-5">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-body pt-3">
+            <!-- Bordered Tabs -->
+            <ul class="nav nav-tabs nav-tabs-bordered">
+              {{#if  agentServiceRequests}}
+              {{#each serviceRequests}}
+              <li class="nav-item">
+                <button class="nav-link {{#if @first}}active{{/if}}" data-bs-toggle="tab" data-bs-target="#profile-overview-{{this._id}}">{{this.serviceName}}</button>
+              </li>
+              {{/each}}
+            </ul>
+            <div class="tab-content pt-2">
+              {{#each serviceRequests}}
+              <div class="tab-pane fade show {{#if @first}}active{{/if}} profile-overview" id="profile-overview-{{this._id}}">
+                <div class="row">
+                  <div class="card">
+                    <div class="card-body mt-5">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Agent</th>
+                            <th scope="col">Service Type</th>
+                            <th scope="col">Service Name</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {{#each ../agentServiceRequests}}
+                          {{#if (isEqual1 ../serviceName this.serviceName)}}
+                          <tr>
+                            <td>{{@index}}</td>
+                            <td>{{serviceType}}</td>
+                            <td>{{serviceName}}</td>
+                            <td>{{quantity}}</td>
+                            <td>{{location}}</td>
+                            <td>{{price}}</td>
+                            <td><a class="btn btn-primary" href="">Select agent</a></td>
+                          </tr>
+                          {{/if}}
+                          {{/each}}
+                        </tbody>
+                      </table>
+                    </div><!-- End Card Body -->
+                  </div><!-- End Card -->
+                </div><!-- End Row -->
+              </div><!-- End Profile Overview -->
+              {{/each}}
+              {{else}}
+              <div class="alert alert-warning" role="alert">
+                You dont have any orders
+              </div>
+              {{/if}}
+            </div><!-- End Tab Content -->
+          </div><!-- End Card Body -->
+        </div><!-- End Card -->
+      </div><!-- End Col -->
+    </div><!-- End Row -->
+  </section>
+</div>

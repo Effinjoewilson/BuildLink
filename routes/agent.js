@@ -119,9 +119,10 @@ router.post('/update-profile', verifyLogin, (req, res) => {
   });
 });
 
-router.post('/update-service-price', verifyLogin, (req, res) => {
+router.post('/add-service-request', verifyLogin, (req, res) => {
   let { serviceId, price } = req.body;
-  agentHelpers.updateServicePrice(serviceId, price).then(() => {
+  let agentId = req.session.agent.agentId;
+  agentHelpers.addAgentServiceRequest(serviceId, agentId, price).then(() => {
     res.json({ status: true });
   }).catch((error) => {
     console.error(error);
